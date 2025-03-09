@@ -32,7 +32,7 @@ document.getElementById("keywordInput").addEventListener("keydown", (event) => {
     if ($slibing) {
       $selected.classList.remove("selected");
       $slibing.classList.add("selected");
-      $slibing.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      $slibing.scrollIntoView({ block: "center", behavior: "smooth" });
     }
   }
 });
@@ -67,5 +67,7 @@ document.getElementById("keywordInput").addEventListener("input", (event) => {
 });
 
 document.getElementById("suggestions").addEventListener("mouseenter", () => {
-  document.querySelector(".selected").classList.remove("selected");
+  document.querySelectorAll(".selected").forEach((elem) => {
+    elem.classList.remove("selected");
+  });
 });

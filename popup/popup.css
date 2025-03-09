@@ -1,5 +1,5 @@
 body {
-  height: 145px;
+  height: 160px;
   margin: 0;
   padding: 5px;
   background-color: rgb(43, 45, 49);
@@ -47,10 +47,17 @@ body {
   top: 2.8rem;
   padding: 0;
   margin: 0;
-  max-height: 100px;
+  max-height: 120px;
   overflow-y: auto;
-
   display: none;
+
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(70, 116, 81, 0.5);
+  scrollbar-width: thin;
+  scrollbar-gutter: auto;
+  transition: scrollbar-color 0.2s ease;
+}
+#suggestions:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.7) rgba(70, 116, 81, 0.5);
 }
 #suggestions li {
   padding: 5px;
@@ -59,13 +66,16 @@ body {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1px solid #ccc;
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-#suggestions li:hover {
-  background-color: rgba(255, 255, 255, 0.3);
+#suggestions li:last-child {
+  margin-bottom: 0;
 }
-
+#suggestions li:hover,
 #suggestions li.selected {
+  background-color: rgba(255, 255, 255, 0.3);
   color: lawngreen;
   font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.3);
 }
