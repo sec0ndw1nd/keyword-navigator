@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Keyword Settings</title>
+    <link rel="stylesheet" href="options.css" />
+    <script type="module" src="options.js" defer></script>
+  </head>
+  <body>
+    <section class="container">
+      <label class="label">
+        <p>URL</p>
+        <input
+          id="url"
+          class="input"
+          type="text"
+          placeholder="https://www.example.com..."
+          tabindex="0"
+        />
+      </label>
+      <label class="label">
+        <p>Name</p>
+        <input class="input" type="text" id="name" placeholder="Display Name"
+      /></label>
+      <div class="inputGroup">
+        <label class="label">
+          <p>Keyword</p>
+          <input class="input" type="text" id="keyword" placeholder="Keyword" />
+        </label>
+        <button id="saveButton">Save</button>
+        <button id="importButton">Import</button>
+        <input type="file" id="importFile" style="display: none" hidden />
+        <button id="exportButton">Export</button>
+      </div>
+    </section>
+
+    <ul id="keywordList"></ul>
+  </body>
+</html>

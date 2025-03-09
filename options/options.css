@@ -1,0 +1,96 @@
+body {
+  background-color: rgb(43, 45, 49);
+  color: white;
+  font-size: 1rem;
+  max-width: 640px;
+}
+p,
+ul,
+h3,
+body {
+  margin: 0;
+}
+button {
+  padding: 8px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #3496ff;
+}
+
+.input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  color: black;
+}
+#url {
+  width: 100%;
+  max-width: 500px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+.label {
+  display: flex;
+  align-items: center;
+}
+.label p {
+  min-width: 80px;
+}
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+#saveButton {
+  margin-right: 2rem;
+}
+#exportButton,
+#importButton {
+  background-color: gray;
+}
+:is(#exportButton, #importButton):hover {
+  background-color: darkgray;
+}
+.deleteButton {
+  background-color: rgb(255, 116, 116);
+}
+.deleteButton:hover {
+  background-color: rgb(255, 66, 66);
+}
+
+#keywordList {
+  padding: 0;
+  margin-left: 0.5rem;
+  list-style: none;
+}
+.keywordItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  margin-bottom: 0.3rem;
+}
+.keywordItem:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.listLeft {
+  flex: 1;
+}
