@@ -41,22 +41,21 @@ document.getElementById("keywordInput").addEventListener("input", (event) => {
   const $suggestionList = document.getElementById("suggestions");
 
   chrome.storage.sync.get("keywords", (data) => {
-    const keywords = Object.entries(data.keywords || {});
-    const filtered = keywords.filter(([k]) =>
-      k.toLowerCase().includes(inputValue)
+    const filtered = data?.keywords?.filter((d) =>
+      d.keyword.toLowerCase().includes(inputValue)
     );
 
     $suggestionList.innerHTML = "";
-    if (filtered.length > 0 && inputValue) {
+    if (filtered && filtered.length > 0 && inputValue) {
       $suggestionList.style.display = "block";
-      filtered.forEach(([keyword, entry], i) => {
+      filtered.forEach((d, i) => {
         const li = document.createElement("li");
         if (i === 0) li.classList.add("selected");
 
-        li.textContent = `${keyword} -     ${entry.name}`;
-        li.dataset.keyword = keyword;
+        li.textContent = `${d.keyword} -     ${d.name}`;
+        li.dataset.keyword = d.keyword;
         li.addEventListener("click", () => {
-          document.getElementById("keywordInput").value = keyword;
+          document.getElementById("keywordInput").value = d.keyword;
           navigateToKeyword(false);
         });
         $suggestionList.appendChild(li);

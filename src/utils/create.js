@@ -13,7 +13,7 @@ export function createButton({ text, onClick, className }) {
   return $button;
 }
 
-export function createKeywordListItem(keyword, entry) {
+export function createKeywordListItem(item) {
   const $li = document.createElement("li");
   const $leftDiv = document.createElement("div");
   const $rightDiv = document.createElement("div");
@@ -23,17 +23,17 @@ export function createKeywordListItem(keyword, entry) {
 
   /* ---- left */
   const $listHeading = document.createElement("h3");
-  $listHeading.textContent = `${entry.name} (${keyword})`;
+  $listHeading.textContent = `${item.name} (${item.keyword})`;
   $leftDiv.appendChild($listHeading);
 
   const $listUrl = document.createElement("p");
-  $listUrl.textContent = `${entry.url}`;
+  $listUrl.textContent = `${item.url}`;
   $leftDiv.appendChild($listUrl);
 
   /* ---- right */
   const $deleteButton = createButton({
     text: "Delete",
-    onClick: () => deleteKeyword(keyword),
+    onClick: () => deleteKeyword(item.keyword),
     className: "deleteButton",
   });
   $rightDiv.appendChild($deleteButton);

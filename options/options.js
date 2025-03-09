@@ -30,7 +30,7 @@ document.getElementById("saveButton").addEventListener("click", () => {
 
 document.getElementById("exportButton").addEventListener("click", () => {
   chrome.storage.sync.get("keywords", (data) => {
-    const blob = new Blob([JSON.stringify(data.keywords, null, 2)], {
+    const blob = new Blob([JSON.stringify(data.keywords || [], null, 2)], {
       type: "application/json",
     });
     const url = URL.createObjectURL(blob);
@@ -51,23 +51,16 @@ document.getElementById("importFile").addEventListener("change", (event) => {
         const importedData = JSON.parse(e.target.result);
 
         // check validation
-        for (const key in importedData) {
-          const entry = importedData[key];
-          if (
-            key === "undefined" ||
-            !key ||
-            !entry ||
-            !entry?.name ||
-            !entry?.url
-          ) {
-            throw new Error(
-              `Invalid JSON file: missing required fields.
-              keyword: ${key} ${
-                key === "undefined" || !key ? "<-- missing" : " (ok)"
-              }
-              name: ${entry?.name} ${!entry?.name ? "<-- missing" : " (ok)"}
-              url: ${entry?.url} ${!entry?.url ? "<-- missing" : " (ok)"}`
-            );
+        if (!Array.isArray(importedData)) {
+          throw new Error("Invalid JSON file: not an array.");
+        }
+        for (const d of importedData) {
+          if (!d?.keyword || !d?.name || !d?.url) {
+            throw new Error(`keyword: ${d?.keyword} ${
+              !d?.keyword ? "<-- missing" : " (ok)"
+            }
+          name: ${d?.name} ${!d?.name ? "<-- missing" : " (ok)"}
+          url: ${d?.url} ${!d?.url ? "<-- missing" : " (ok)"}`);
           }
         }
 
