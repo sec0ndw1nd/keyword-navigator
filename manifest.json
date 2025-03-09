@@ -3,12 +3,15 @@
   "name": "Keyword Navigator",
   "version": "1.0",
   "permissions": ["storage", "tabs"],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  },
   "options_page": "options/options.html",
   "action": {
     "default_popup": "popup/popup.html"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Q"
+      }
+    }
   }
 }
