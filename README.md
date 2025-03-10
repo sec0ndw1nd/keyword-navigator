@@ -1,4 +1,3 @@
 # Keyword Navigator
 
-I used to navigate websites with shortcuts of search engine.
-But, That feature suddenly gone so I made this.
+I used to shortcut my favourite sites in my Chrome browser's search engine to make it easier to navigate between sites. But Chrome suddenly removed this feature, so I created this extension.

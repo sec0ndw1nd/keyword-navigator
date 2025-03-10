@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
     <title>Keyword Settings</title>
     <link rel="stylesheet" href="options.css" />
     <script type="module" src="options.js" defer></script>
   </head>
   <body>
+    <header class="header">
+      <h1>Keyword Navigator</h1>
+      <div>
+        <button class="github">
+          <img
+            src="../assets/github-mark-white.svg"
+            alt="github logo"
+            width="34"
+            height="34"
+          />
+          <span class="githubName">sec0ndw1nd</span>
+        </button>
+      </div>
+    </header>
     <section class="container">
       <label class="label">
         <p>URL</p>
@@ -28,11 +44,11 @@
         </label>
         <button id="saveButton">Save</button>
         <button id="importButton">Import</button>
-        <input type="file" id="importFile" style="display: none" hidden />
+        <input type="file" id="importFile" hidden />
         <button id="exportButton">Export</button>
       </div>
     </section>
 
-    <ul id="keywordList"></ul>
+    <ul id="keywordList" class="scrollShadow"></ul>
   </body>
 </html>

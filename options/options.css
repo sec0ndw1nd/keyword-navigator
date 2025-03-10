@@ -1,14 +1,33 @@
-body {
-  background-color: rgb(43, 45, 49);
-  color: white;
-  font-size: 1rem;
-  max-width: 640px;
+:root {
+  --bgc: rgb(43, 45, 49);
 }
+
 p,
 ul,
+h1,
 h3,
 body {
   margin: 0;
+}
+body {
+  background-color: var(--bgc);
+  color: white;
+  font-size: 1rem;
+  max-width: 640px;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(70, 116, 81, 0.5);
+  scrollbar-width: thin;
+}
+body > :first-child {
+  margin-top: 0.5rem;
+}
+body > :last-child {
+  margin-bottom: 0.5rem;
 }
 button {
   padding: 8px 24px;
@@ -23,6 +42,45 @@ button:hover {
   background-color: #3496ff;
 }
 
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.github {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.github:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.githubName {
+  content: "sec0ndw1nd";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  transform: translateX(-100%);
+  letter-spacing: 10px;
+  font-size: 0.1rem;
+}
+.github:hover .githubName {
+  opacity: 1;
+  transform: translateX(-105%);
+  letter-spacing: 1px;
+  font-size: 0.75rem;
+}
+
 .input {
   padding: 0.5rem;
   border-radius: 5px;
@@ -32,15 +90,13 @@ button:hover {
 }
 #url {
   width: 100%;
-  max-width: 500px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 .label {
   display: flex;
@@ -75,8 +131,20 @@ button:hover {
 
 #keywordList {
   padding: 0;
-  margin-left: 0.5rem;
   list-style: none;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-color: rgba(255, 255, 255, 0.3) var(--bgc);
+  transition: scrollbar-color 0.2s ease;
+}
+#keywordList::-webkit-scrollbar {
+  border-radius: 5px !important;
+}
+#keywordList:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.6) var(--bgc);
+}
+#keywordList > .keywordItem:last-child {
+  margin-bottom: 0;
 }
 .keywordItem {
   display: flex;
@@ -93,4 +161,39 @@ button:hover {
 }
 .listLeft {
   flex: 1;
+}
+
+.scrollShadow {
+  --background-color: var(--bgc);
+  --shadow-color: rgba(175, 175, 175, 0.15); /* rgba(20, 20, 20, 0.6) */
+  --shadow-size: 3rem;
+  --transparent: rgba(255, 255, 255, 0);
+
+  background: linear-gradient(
+      var(--background-color),
+      var(--background-color),
+      var(--transparent) calc(var(--shadow-size) * 2)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--shadow-color),
+      /* 중간 색상 정지점 추가 */ var(--transparent)
+    ),
+    linear-gradient(
+      to top,
+      var(--background-color),
+      var(--background-color),
+      var(--transparent) calc(var(--shadow-size) * 2)
+    ),
+    linear-gradient(
+        to top,
+        var(--shadow-color),
+        /* 중간 색상 정지점 추가 */ var(--transparent)
+      )
+      0 100%;
+  background-color: var(--background-color);
+  background-repeat: no-repeat;
+  background-attachment: local, scroll, local, scroll;
+  background-size: 100% 100%, 100% var(--shadow-size), 100% 100%,
+    100% var(--shadow-size);
 }
