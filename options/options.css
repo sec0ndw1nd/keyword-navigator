@@ -23,7 +23,7 @@ body {
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(70, 116, 81, 0.5);
   scrollbar-width: thin;
 }
-body > :first-child {
+body .header {
   margin-top: 0.5rem;
 }
 body > :last-child {
@@ -74,6 +74,8 @@ button:hover {
   justify-content: center;
   align-items: center;
   position: relative;
+  border-radius: 5px;
+  color: white;
 }
 .github:hover {
   background: rgba(255, 255, 255, 0.2);
