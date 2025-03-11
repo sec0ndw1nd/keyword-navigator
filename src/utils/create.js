@@ -1,4 +1,4 @@
-import { deleteKeyword } from "./keyword.js";
+import { deleteLocalKeyword } from "./storage.js";
 
 export function createButton({ text, onClick, className }) {
   const $button = document.createElement("button");
@@ -33,7 +33,7 @@ export function createKeywordListItem(item) {
   /* ---- right */
   const $deleteButton = createButton({
     text: "Delete",
-    onClick: () => deleteKeyword(item.keyword),
+    onClick: () => deleteLocalKeyword(item.keyword),
     className: "deleteButton",
   });
   $rightDiv.appendChild($deleteButton);

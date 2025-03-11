@@ -8,6 +8,7 @@
     <script type="module" src="options.js" defer></script>
   </head>
   <body>
+    <div id="backdrop"></div>
     <header class="header">
       <h1>Keyword Navigator</h1>
       <div>
@@ -43,12 +44,57 @@
           <input class="input" type="text" id="keyword" placeholder="Keyword" />
         </label>
         <button id="saveButton">Save</button>
+      </div>
+    </section>
+    <section class="searchContainer">
+      <div class="searchGroup">
+        <input
+          class="input searchInput"
+          type="text"
+          id="search"
+          placeholder="Search"
+        />
+        <button id="searchButton">
+          <!-- 
+          Bootstrap
+          Designed and built with all the love in the world by the Bootstrap team with the help of our contributors.
+          Code licensed MIT, docs CC BY 3.0. 
+          -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-search"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="buttonGroup">
         <button id="importButton">Import</button>
         <input type="file" id="importFile" hidden />
         <button id="exportButton">Export</button>
+        <div class="deleteAllWrapper">
+          <button id="deleteAllButton">Delete All</button>
+          <div class="askBubble" aria-hidden="true">
+            <div class="askWrapper">
+              <div class="askMessage">
+                <p><strong>Delete</strong> ALL data.</p>
+                <p><strong>continue?</strong></p>
+              </div>
+              <div class="responseGroup">
+                <button id="yes" class="yes">Yes</button>
+                <button id="no" class="no">No</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
-
     <ul id="keywordList" class="scrollShadow"></ul>
   </body>
 </html>

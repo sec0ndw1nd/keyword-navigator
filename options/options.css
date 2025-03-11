@@ -42,6 +42,25 @@ button:hover {
   background-color: #3496ff;
 }
 
+#backdrop {
+  margin: 0;
+  position: absolute;
+  inset: 0;
+  background-color: #000000bb;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+  visibility: hidden;
+  transition-behavior: allow-discrete;
+}
+#backdrop.show {
+  z-index: 10;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
 .header {
   display: flex;
   align-items: flex-end;
@@ -73,6 +92,7 @@ button:hover {
   transform: translateX(-100%);
   letter-spacing: 10px;
   font-size: 0.1rem;
+  pointer-events: none;
 }
 .github:hover .githubName {
   opacity: 1;
@@ -96,7 +116,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 .label {
   display: flex;
@@ -108,8 +128,7 @@ button:hover {
 .inputGroup {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 #saveButton {
@@ -196,4 +215,118 @@ button:hover {
   background-attachment: local, scroll, local, scroll;
   background-size: 100% 100%, 100% var(--shadow-size), 100% 100%,
     100% var(--shadow-size);
+}
+
+.searchContainer {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+.searchGroup {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  position: relative;
+  border-radius: 5px;
+}
+.searchInput {
+  max-width: 120px;
+  padding-right: 40px;
+}
+#searchButton {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  bottom: 2px;
+  padding: 10px;
+  border-radius: 5px;
+  padding: 0 8px;
+  background-color: darkgray;
+}
+#searchButton:hover,
+.searchInput:focus ~ #searchButton {
+  background-color: gray;
+}
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#deleteAllButton {
+  background-color: rgb(255, 65, 43);
+}
+#deleteAllButton:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.deleteAllWrapper {
+  position: relative;
+}
+.askBubble {
+  position: absolute;
+  background: #000000;
+  border-radius: 5px;
+  top: 25px;
+  left: -65%;
+  border: 1px white solid;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  transition-behavior: allow-discrete;
+  z-index: -1;
+}
+.askBubble.show {
+  top: 45px;
+  visibility: visible;
+  opacity: 1;
+  z-index: 100;
+}
+.askBubble:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 0.5rem solid transparent;
+  border-bottom-color: white;
+  border-top: 0;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+}
+.askWrapper {
+  padding: 1rem;
+  width: 200px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.askMessage {
+  padding: 0 1rem;
+}
+.askMessage strong {
+  color: red;
+}
+.responseGroup {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.yes {
+  background-color: gray;
+}
+.yes:hover {
+  background-color: rgb(255, 0, 0);
+}
+.no {
+  background-color: gray;
+}
+.no:hover {
+  background-color: darkgray;
 }

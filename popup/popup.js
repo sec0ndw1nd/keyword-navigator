@@ -1,4 +1,27 @@
-import { navigateToKeyword } from "../src/utils/keyword.js";
+import { getLocalKeyword, getLocalKeywordsAll } from "../src/utils/storage.js";
+
+const LOADED_KEYWORDS = await getLocalKeywordsAll();
+
+async function navigateToKeyword(
+  openInNewTab = false,
+  selectedKeyword = undefined
+) {
+  const keyword =
+    selectedKeyword || document.getElementById("keywordInput").value;
+
+  const data = await getLocalKeyword(keyword);
+  if (data) {
+    if (openInNewTab) {
+      chrome.tabs.create({ url: data.url });
+    } else {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.update(tabs[0].id, { url: data.url });
+      });
+    }
+    // close popup
+    window.close();
+  }
+}
 
 document
   .getElementById("searchButton")
@@ -40,30 +63,28 @@ document.getElementById("keywordInput").addEventListener("input", (event) => {
   const inputValue = event.target.value.toLowerCase();
   const $suggestionList = document.getElementById("suggestions");
 
-  chrome.storage.sync.get("keywords", (data) => {
-    const filtered = data?.keywords?.filter((d) =>
-      d.keyword.toLowerCase().includes(inputValue)
-    );
+  const filtered = LOADED_KEYWORDS.filter((d) =>
+    d.keyword.toLowerCase().includes(inputValue)
+  );
 
-    $suggestionList.innerHTML = "";
-    if (filtered && filtered.length > 0 && inputValue) {
-      $suggestionList.style.display = "block";
-      filtered.forEach((d, i) => {
-        const li = document.createElement("li");
-        if (i === 0) li.classList.add("selected");
+  $suggestionList.innerHTML = "";
+  if (filtered && filtered.length > 0 && inputValue) {
+    $suggestionList.style.display = "block";
+    filtered.forEach((d, i) => {
+      const li = document.createElement("li");
+      if (i === 0) li.classList.add("selected");
 
-        li.textContent = `${d.keyword} -     ${d.name}`;
-        li.dataset.keyword = d.keyword;
-        li.addEventListener("click", () => {
-          document.getElementById("keywordInput").value = d.keyword;
-          navigateToKeyword(false);
-        });
-        $suggestionList.appendChild(li);
+      li.textContent = `${d.keyword} -     ${d.name}`;
+      li.dataset.keyword = d.keyword;
+      li.addEventListener("click", () => {
+        document.getElementById("keywordInput").value = d.keyword;
+        navigateToKeyword(false);
       });
-    } else {
-      $suggestionList.style.display = "none";
-    }
-  });
+      $suggestionList.appendChild(li);
+    });
+  } else {
+    $suggestionList.style.display = "none";
+  }
 });
 
 document.getElementById("suggestions").addEventListener("mouseenter", () => {

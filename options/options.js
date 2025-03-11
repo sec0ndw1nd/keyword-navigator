@@ -1,4 +1,26 @@
-import { addKeyword, appendKeywords } from "../src/utils/keyword.js";
+import { createKeywordListItem } from "../src/utils/create.js";
+import {
+  addLocalKeyword,
+  deleteLocalKeywordsAll,
+  getLocalKeywordsAll,
+} from "../src/utils/storage.js";
+
+async function updateKeywordListView() {
+  const keywords = await getLocalKeywordsAll();
+  const $list = document.getElementById("keywordList");
+  $list.innerHTML = "";
+
+  keywords.forEach((item) => {
+    const $li = createKeywordListItem(item);
+    $list.appendChild($li);
+  });
+}
+
+chrome.storage.onChanged.addListener(async (changes, areaName) => {
+  if (areaName === "local" && changes.keywords) {
+    await updateKeywordListView();
+  }
+});
 
 function isValidURL(url) {
   try {
@@ -8,8 +30,7 @@ function isValidURL(url) {
     return false;
   }
 }
-
-document.getElementById("saveButton").addEventListener("click", () => {
+document.getElementById("saveButton").addEventListener("click", async () => {
   const name = document.getElementById("name");
   const keyword = document.getElementById("keyword");
   const url = document.getElementById("url");
@@ -25,28 +46,32 @@ document.getElementById("saveButton").addEventListener("click", () => {
     alert("Invalid URL.");
     return;
   }
-  addKeyword({ name: name.value, keyword: keyword.value, url: url.value });
+
+  await addLocalKeyword({
+    name: name.value,
+    keyword: keyword.value,
+    url: url.value,
+  });
 });
 
-document.getElementById("exportButton").addEventListener("click", () => {
-  chrome.storage.sync.get("keywords", (data) => {
-    const blob = new Blob([JSON.stringify(data.keywords || [], null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "keyword_navigator_backup.json";
-    a.click();
-    URL.revokeObjectURL(url);
+document.getElementById("exportButton").addEventListener("click", async () => {
+  const keywords = await getLocalKeywordsAll();
+  const blob = new Blob([JSON.stringify(keywords, null, 2)], {
+    type: "application/json",
   });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "keyword_navigator_backup.json";
+  a.click();
+  URL.revokeObjectURL(url);
 });
 
 document.getElementById("importFile").addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const importedData = JSON.parse(e.target.result);
 
@@ -64,11 +89,9 @@ document.getElementById("importFile").addEventListener("change", (event) => {
           }
         }
 
-        chrome.storage.sync.set({ keywords: importedData }, () => {
-          appendKeywords();
-        });
+        await chrome.storage.local.set({ keywords: importedData });
       } catch (error) {
-        alert(error.message);
+        console.error(error);
       }
     };
     reader.readAsText(file);
@@ -78,4 +101,25 @@ document.getElementById("importButton").addEventListener("click", () => {
   document.getElementById("importFile").click();
 });
 
-document.addEventListener("DOMContentLoaded", appendKeywords);
+function toggleAskPopup() {
+  const $askBubble = document.querySelector(".askBubble");
+  $askBubble.classList.toggle("show");
+  $askBubble.setAttribute("aria-hidden", $askBubble.classList.contains("show"));
+
+  document.querySelector("#backdrop").classList.toggle("show");
+}
+document.getElementById("deleteAllButton").addEventListener("click", () => {
+  toggleAskPopup();
+});
+document.getElementById("yes").addEventListener("click", async () => {
+  await deleteLocalKeywordsAll();
+  toggleAskPopup();
+});
+document.getElementById("no").addEventListener("click", () => {
+  toggleAskPopup();
+});
+document.getElementById("backdrop").addEventListener("click", () => {
+  toggleAskPopup();
+});
+
+document.addEventListener("DOMContentLoaded", updateKeywordListView);
