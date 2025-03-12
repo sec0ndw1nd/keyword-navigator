@@ -1,3 +1,3 @@
 # Keyword Navigator
 
-I used to shortcut my favourite sites in my Chrome browser's search engine to make it easier to navigate between sites. But Chrome suddenly removed this feature, so I created this extension.
+I used to add shortcuts for my favorite sites in my Chrome browser's search engine to make it easier to navigate between them. But now, the Site Search's URL requires %s in query so it no longer works. That's why I made this extension.
