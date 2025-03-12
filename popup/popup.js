@@ -1,44 +1,72 @@
 import { getLocalKeyword, getLocalKeywordsAll } from "../src/utils/storage.js";
 
-const LOADED_KEYWORDS = await getLocalKeywordsAll();
+let LOADED_KEYWORDS = [];
 
-async function navigateToKeyword(
-  openInNewTab = false,
-  selectedKeyword = undefined
-) {
-  const keyword =
-    selectedKeyword || document.getElementById("keywordInput").value;
+async function navigateToKeyword(openInNewTab = false) {
+  const keyword = document.querySelector(".selected")?.dataset?.keyword;
+  if (!keyword) return;
+  try {
+    const data = await getLocalKeyword(keyword);
+    if (!data) return;
 
-  const data = await getLocalKeyword(keyword);
-  if (data) {
-    if (openInNewTab) {
-      chrome.tabs.create({ url: data.url });
-    } else {
+    if (openInNewTab) chrome.tabs.create({ url: data.url });
+    else {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         chrome.tabs.update(tabs[0].id, { url: data.url });
       });
     }
-    // close popup
     window.close();
+  } catch (error) {
+    console.error("Error navigating to keyword:", error);
   }
 }
-
-document
-  .getElementById("searchButton")
-  .addEventListener("click", navigateToKeyword);
-document
-  .getElementById("keywordInput")
-  .addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-      const selectedKeyword =
-        document.querySelector(".selected")?.dataset?.keyword;
-      navigateToKeyword(event.shiftKey, selectedKeyword);
-    }
+function clearSelection($preSelectedSuggestions) {
+  const $suggestionList =
+    $preSelectedSuggestions || document.getElementById("suggestions");
+  $suggestionList.querySelectorAll(".selected").forEach(($li) => {
+    $li.classList.remove("selected");
   });
-document.getElementById("keywordInput").addEventListener("keydown", (event) => {
-  if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-    event.preventDefault();
+}
 
+/* ------------------------------- Event Handlers */
+
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    LOADED_KEYWORDS = await getLocalKeywordsAll();
+  } catch (error) {
+    console.error("Error loading keywords:", error);
+  }
+
+  document.getElementById("goButton").addEventListener("click", handleClickGo);
+  document
+    .getElementById("keywordInput")
+    .addEventListener("keypress", handlePressEnter);
+  document
+    .getElementById("keywordInput")
+    .addEventListener("keydown", handleKeyDown);
+  document
+    .getElementById("keywordInput")
+    .addEventListener("input", handleInput);
+  document
+    .getElementById("suggestions")
+    .addEventListener("mouseover", handleMouseOverListItem);
+  document
+    .getElementById("suggestions")
+    .addEventListener("click", handleClickListItem);
+});
+
+function handleClickGo(event) {
+  navigateToKeyword(event.shiftKey);
+}
+
+function handlePressEnter(event) {
+  if (event.key !== "Enter") return;
+  navigateToKeyword(event.shiftKey);
+}
+
+function handleKeyDown(event) {
+  if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+    event.preventDefault();
     const $suggestionList = document.getElementById("suggestions");
     if ($suggestionList.children.length === 0) return;
 
@@ -49,46 +77,48 @@ document.getElementById("keywordInput").addEventListener("keydown", (event) => {
     }
 
     const isArrowUp = event.key === "ArrowUp";
-    const $slibing = isArrowUp
+    const $sibling = isArrowUp
       ? $selected.previousElementSibling
       : $selected.nextElementSibling;
-    if ($slibing) {
-      $selected.classList.remove("selected");
-      $slibing.classList.add("selected");
-      $slibing.scrollIntoView({ block: "center", behavior: "smooth" });
-    }
-  }
-});
-document.getElementById("keywordInput").addEventListener("input", (event) => {
-  const inputValue = event.target.value.toLowerCase();
-  const $suggestionList = document.getElementById("suggestions");
+    if (!$sibling) return;
 
+    clearSelection($suggestionList);
+    $sibling.classList.add("selected");
+    $sibling.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+}
+
+function handleInput(event) {
+  const inputValue = event.target.value.toLowerCase();
   const filtered = LOADED_KEYWORDS.filter((d) =>
     d.keyword.toLowerCase().includes(inputValue)
   );
 
+  // update #suggestion
+  const $suggestionList = document.getElementById("suggestions");
   $suggestionList.innerHTML = "";
-  if (filtered && filtered.length > 0 && inputValue) {
+  if (filtered.length > 0 && inputValue) {
     $suggestionList.style.display = "block";
-    filtered.forEach((d, i) => {
-      const li = document.createElement("li");
-      if (i === 0) li.classList.add("selected");
 
-      li.textContent = `${d.keyword} -     ${d.name}`;
-      li.dataset.keyword = d.keyword;
-      li.addEventListener("click", () => {
-        document.getElementById("keywordInput").value = d.keyword;
-        navigateToKeyword(false);
-      });
-      $suggestionList.appendChild(li);
+    filtered.forEach((d) => {
+      const $li = document.createElement("li");
+      $li.textContent = `${d.keyword} = ${d.name}`;
+      $li.dataset.keyword = d.keyword;
+      $suggestionList.appendChild($li);
     });
+    $suggestionList.children[0].classList.add("selected");
   } else {
     $suggestionList.style.display = "none";
   }
-});
+}
 
-document.getElementById("suggestions").addEventListener("mouseenter", () => {
-  document.querySelectorAll(".selected").forEach((elem) => {
-    elem.classList.remove("selected");
-  });
-});
+function handleMouseOverListItem(event) {
+  if (event.target.tagName !== "LI") return;
+  clearSelection();
+  event.target.classList.add("selected");
+}
+
+function handleClickListItem(event) {
+  if (event.target.tagName !== "LI") return;
+  navigateToKeyword(event.shiftKey);
+}

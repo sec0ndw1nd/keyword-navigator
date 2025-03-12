@@ -6,7 +6,7 @@ body {
   font-family: consolas, monospace, serif;
 }
 
-#searchButton {
+#goButton {
   padding: 2px 10px;
   color: white;
   border: 1px solid lawngreen;
@@ -73,7 +73,7 @@ body {
 #suggestions li:last-child {
   margin-bottom: 0;
 }
-#suggestions li:hover,
+
 #suggestions li.selected {
   background-color: rgba(255, 255, 255, 0.3);
   color: lawngreen;
