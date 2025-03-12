@@ -1,4 +1,4 @@
-import { getLocalKeyword, getLocalKeywordsAll } from "../src/utils/storage.js";
+import { getLocalKeyword, getLocalKeywordsAll } from "../_utils/storage.js";
 
 let LOADED_KEYWORDS = [];
 

@@ -1,10 +1,10 @@
-import { createKeywordListItem } from "../src/utils/create.js";
+import { createKeywordListItem } from "../_utils/create.js";
 import {
   addLocalKeyword,
   deleteLocalKeywordsAll,
   getLocalKeywordsAll,
   updateLocalKeywords,
-} from "../src/utils/storage.js";
+} from "../_utils/storage.js";
 
 async function updateKeywordListView() {
   const keywords = await getLocalKeywordsAll();
