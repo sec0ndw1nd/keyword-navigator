@@ -8,15 +8,18 @@ export async function getLocalKeyword(keyword) {
   return found;
 }
 
-export async function addLocalKeyword({ keyword, name, url }) {
-  const keywords = await getLocalKeywordsAll();
-  keywords.push({ keyword, name, url });
-
+export async function updateLocalKeywords(keywords) {
   try {
     await chrome.storage.local.set({ keywords });
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function addLocalKeyword({ keyword, name, url }) {
+  const keywords = await getLocalKeywordsAll();
+  keywords.push({ keyword, name, url });
+  await updateLocalKeywords(keywords);
 }
 
 export async function deleteLocalKeyword(keyword) {

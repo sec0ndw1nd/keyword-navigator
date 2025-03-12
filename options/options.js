@@ -3,6 +3,7 @@ import {
   addLocalKeyword,
   deleteLocalKeywordsAll,
   getLocalKeywordsAll,
+  updateLocalKeywords,
 } from "../src/utils/storage.js";
 
 async function updateKeywordListView() {
@@ -16,12 +17,6 @@ async function updateKeywordListView() {
   });
 }
 
-chrome.storage.onChanged.addListener(async (changes, areaName) => {
-  if (areaName === "local" && changes.keywords) {
-    await updateKeywordListView();
-  }
-});
-
 function isValidURL(url) {
   try {
     new URL(url);
@@ -30,7 +25,45 @@ function isValidURL(url) {
     return false;
   }
 }
-document.getElementById("saveButton").addEventListener("click", async () => {
+
+function toggleAskPopup() {
+  const $askBubble = document.querySelector(".askBubble");
+  $askBubble.classList.toggle("show");
+  $askBubble.setAttribute("aria-hidden", $askBubble.classList.contains("show"));
+
+  document.querySelector("#backdrop").classList.toggle("show");
+}
+
+/* ------------------------------- Event Handlers */
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await updateKeywordListView(); // init update
+
+  chrome.storage.onChanged.addListener(async (changes, areaName) => {
+    if (areaName === "local" && changes.keywords) {
+      await updateKeywordListView();
+    }
+  });
+
+  const $saveButton = document.getElementById("saveButton");
+  const $exportButton = document.getElementById("exportButton");
+  const $importFile = document.getElementById("importFile");
+  const $importButton = document.getElementById("importButton");
+  const $deleteAllButton = document.getElementById("deleteAllButton");
+
+  $saveButton.addEventListener("click", handleClickSave);
+  $exportButton.addEventListener("click", handleClickExport);
+  $importFile.addEventListener("change", handleImportFile);
+  $importButton.addEventListener("click", handleClickImport.bind($importFile));
+
+  $deleteAllButton.addEventListener("click", toggleAskPopup);
+  document.getElementById("no").addEventListener("click", toggleAskPopup);
+  document.getElementById("backdrop").addEventListener("click", toggleAskPopup);
+
+  document.getElementById("yes").addEventListener("click", handleClickYes);
+});
+
+async function handleClickSave() {
   const name = document.getElementById("name");
   const keyword = document.getElementById("keyword");
   const url = document.getElementById("url");
@@ -52,9 +85,9 @@ document.getElementById("saveButton").addEventListener("click", async () => {
     keyword: keyword.value,
     url: url.value,
   });
-});
+}
 
-document.getElementById("exportButton").addEventListener("click", async () => {
+async function handleClickExport() {
   const keywords = await getLocalKeywordsAll();
   const blob = new Blob([JSON.stringify(keywords, null, 2)], {
     type: "application/json",
@@ -65,9 +98,9 @@ document.getElementById("exportButton").addEventListener("click", async () => {
   a.download = "keyword_navigator_backup.json";
   a.click();
   URL.revokeObjectURL(url);
-});
+}
 
-document.getElementById("importFile").addEventListener("change", (event) => {
+async function handleImportFile(event) {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
@@ -89,37 +122,21 @@ document.getElementById("importFile").addEventListener("change", (event) => {
           }
         }
 
-        await chrome.storage.local.set({ keywords: importedData });
+        await updateLocalKeywords(importedData);
       } catch (error) {
+        alert(error);
         console.error(error);
       }
     };
     reader.readAsText(file);
   }
-});
-document.getElementById("importButton").addEventListener("click", () => {
-  document.getElementById("importFile").click();
-});
-
-function toggleAskPopup() {
-  const $askBubble = document.querySelector(".askBubble");
-  $askBubble.classList.toggle("show");
-  $askBubble.setAttribute("aria-hidden", $askBubble.classList.contains("show"));
-
-  document.querySelector("#backdrop").classList.toggle("show");
 }
-document.getElementById("deleteAllButton").addEventListener("click", () => {
-  toggleAskPopup();
-});
-document.getElementById("yes").addEventListener("click", async () => {
+
+function handleClickImport() {
+  this.click(); // this = getElementById("importFile")
+}
+
+async function handleClickYes() {
   await deleteLocalKeywordsAll();
   toggleAskPopup();
-});
-document.getElementById("no").addEventListener("click", () => {
-  toggleAskPopup();
-});
-document.getElementById("backdrop").addEventListener("click", () => {
-  toggleAskPopup();
-});
-
-document.addEventListener("DOMContentLoaded", updateKeywordListView);
+}
