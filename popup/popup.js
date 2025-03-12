@@ -37,22 +37,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading keywords:", error);
   }
 
-  document.getElementById("goButton").addEventListener("click", handleClickGo);
-  document
-    .getElementById("keywordInput")
-    .addEventListener("keypress", handlePressEnter);
-  document
-    .getElementById("keywordInput")
-    .addEventListener("keydown", handleKeyDown);
-  document
-    .getElementById("keywordInput")
-    .addEventListener("input", handleInput);
-  document
-    .getElementById("suggestions")
-    .addEventListener("mouseover", handleMouseOverListItem);
-  document
-    .getElementById("suggestions")
-    .addEventListener("click", handleClickListItem);
+  const $suggestion = document.getElementById("suggestions");
+  const $goButton = document.getElementById("goButton");
+  const $keywordInput = document.getElementById("keywordInput");
+
+  $suggestion.addEventListener("mouseover", handleMouseOverListItem);
+  $suggestion.addEventListener("click", handleClickListItem);
+  $goButton.addEventListener("click", handleClickGo);
+  $keywordInput.addEventListener("keypress", handlePressEnter);
+  $keywordInput.addEventListener("keydown", handleKeyDown.bind($suggestion));
+  $keywordInput.addEventListener("input", handleInput.bind($suggestion));
 });
 
 function handleClickGo(event) {
@@ -67,7 +61,7 @@ function handlePressEnter(event) {
 function handleKeyDown(event) {
   if (["ArrowUp", "ArrowDown"].includes(event.key)) {
     event.preventDefault();
-    const $suggestionList = document.getElementById("suggestions");
+    const $suggestionList = this; // this = document.getElementById("suggestions");
     if ($suggestionList.children.length === 0) return;
 
     const $selected = $suggestionList.querySelector(".selected");
@@ -89,13 +83,13 @@ function handleKeyDown(event) {
 }
 
 function handleInput(event) {
-  const inputValue = event.target.value.toLowerCase();
+  const inputValue = event.target.value.toLowerCase().trim();
   const filtered = LOADED_KEYWORDS.filter((d) =>
     d.keyword.toLowerCase().includes(inputValue)
   );
 
   // update #suggestion
-  const $suggestionList = document.getElementById("suggestions");
+  const $suggestionList = this; // this = document.getElementById("suggestions");
   $suggestionList.innerHTML = "";
   if (filtered.length > 0 && inputValue) {
     $suggestionList.style.display = "block";
