@@ -14,14 +14,15 @@ soon..
 ### How to Use
 
 1.  Install the Keyword Navigator extension from the Chrome Web Store.
-2.  Add your desired site and set your preferred shortcut.
-3.  On browser, Ctrl+Q to activate the extension and type a keyword you added.
-4.  Enter to open it in current tab, Shift+Enter to open it in new tab.
+2.  Right-click on the extension you just installed, then click "Options" in context menu.
+3.  At options page, Add your desired site with a keyword.
+4.  On browser, Ctrl+Q to activate the extension and type a keyword you added.
+5.  Enter to open it in current tab, Shift+Enter to open it in new tab.
 
 ### How to Change Shortcut
 
 Ctrl+Q is the default shortcut key.
-You can edit it at [Here] (chrome://extensions/shortcuts)
+You can edit it at [Here](chrome://extensions/shortcuts)
 
 ### License
 
