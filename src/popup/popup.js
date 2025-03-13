@@ -61,7 +61,7 @@ function handlePressEnter(event) {
 function handleKeyDown(event) {
   if (["ArrowUp", "ArrowDown"].includes(event.key)) {
     event.preventDefault();
-    const $suggestionList = this; // this = document.getElementById("suggestions");
+    const $suggestionList = this; // this = getElementById("suggestions");
     if ($suggestionList.children.length === 0) return;
 
     const $selected = $suggestionList.querySelector(".selected");
@@ -89,7 +89,7 @@ function handleInput(event) {
   );
 
   // update #suggestion
-  const $suggestionList = this; // this = document.getElementById("suggestions");
+  const $suggestionList = this; // this = getElementById("suggestions");
   $suggestionList.innerHTML = "";
   if (filtered.length > 0 && inputValue) {
     $suggestionList.style.display = "block";

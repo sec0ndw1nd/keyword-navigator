@@ -6,7 +6,7 @@ import {
   updateLocalKeywords,
 } from "../utils/storage.js";
 
-async function updateKeywordListView() {
+async function updateKeywordListView(shouldScrollDown = false) {
   const keywords = await getLocalKeywordsAll();
   const $list = document.getElementById("keywordList");
   $list.innerHTML = "";
@@ -15,6 +15,13 @@ async function updateKeywordListView() {
     const $li = createKeywordListItem(item);
     $list.appendChild($li);
   });
+
+  if (shouldScrollDown) {
+    $list.lastElementChild.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+  }
 }
 
 function isValidURL(url) {
@@ -41,7 +48,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   chrome.storage.onChanged.addListener(async (changes, areaName) => {
     if (areaName === "local" && changes.keywords) {
-      await updateKeywordListView();
+      const prevLength = changes.keywords.oldValue.length;
+      const currLength = changes.keywords.newValue.length;
+      await updateKeywordListView(currLength > prevLength);
     }
   });
 
@@ -85,6 +94,9 @@ async function handleClickSave() {
     keyword: keyword.value,
     url: url.value,
   });
+  name.value = "";
+  keyword.value = "";
+  url.value = "";
 }
 
 async function handleClickExport() {
