@@ -22,7 +22,7 @@ soon..
 ### How to Change Shortcut
 
 Ctrl+Q is the default shortcut key.
-You can edit it at [Here](chrome://extensions/shortcuts)
+You can edit it at `chrome://extensions/shortcuts`
 
 ### License
 
