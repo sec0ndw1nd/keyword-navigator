@@ -27,28 +27,36 @@
         </a>
       </div>
     </header>
-    <section class="container">
-      <label class="label">
-        <p>URL</p>
-        <input
-          id="url"
-          class="input"
-          type="text"
-          placeholder="https://www.example.com..."
-          tabindex="0"
-        />
-      </label>
-      <label class="label">
-        <p>Name</p>
-        <input class="input" type="text" id="name" placeholder="Display Name"
-      /></label>
-      <div class="inputGroup">
+    <section class="formContainer">
+      <form class="form" id="form">
         <label class="label">
-          <p>Keyword</p>
-          <input class="input" type="text" id="keyword" placeholder="Keyword" />
+          <p>URL</p>
+          <input
+            id="url"
+            class="input"
+            type="text"
+            placeholder="https://www.example.com..."
+            tabindex="0"
+            autofocus
+          />
         </label>
-        <button id="saveButton">Save</button>
-      </div>
+        <label class="label">
+          <p>Name</p>
+          <input class="input" type="text" id="name" placeholder="Display Name"
+        /></label>
+        <div class="inputGroup">
+          <label class="label">
+            <p>Keyword</p>
+            <input
+              class="input"
+              type="text"
+              id="keyword"
+              placeholder="Keyword"
+            />
+          </label>
+          <button type="submit" id="saveButton">Save</button>
+        </div>
+      </form>
     </section>
     <section class="searchContainer">
       <div class="searchGroup">
@@ -58,7 +66,7 @@
           id="search"
           placeholder="Search"
         />
-        <button id="searchButton">
+        <button id="searchButton" aria-label="search button">
           <!-- 
           Bootstrap
           Designed and built with all the love in the world by the Bootstrap team with the help of our contributors.

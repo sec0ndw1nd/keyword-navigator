@@ -54,12 +54,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  const $form = document.getElementById("form");
   const $saveButton = document.getElementById("saveButton");
   const $exportButton = document.getElementById("exportButton");
   const $importFile = document.getElementById("importFile");
   const $importButton = document.getElementById("importButton");
   const $deleteAllButton = document.getElementById("deleteAllButton");
 
+  $form.addEventListener("submit", handleSubmitForm);
   $saveButton.addEventListener("click", handleClickSave);
   $exportButton.addEventListener("click", handleClickExport);
   $importFile.addEventListener("change", handleImportFile);
@@ -94,9 +96,17 @@ async function handleClickSave() {
     keyword: keyword.value,
     url: url.value,
   });
+
   name.value = "";
   keyword.value = "";
   url.value = "";
+
+  url.focus();
+}
+
+async function handleSubmitForm(event) {
+  event.preventDefault();
+  await handleClickSave();
 }
 
 async function handleClickExport() {

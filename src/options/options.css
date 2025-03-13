@@ -114,11 +114,13 @@ button:hover {
   width: 100%;
 }
 
-.container {
+.formContainer {
+  margin-bottom: 1.5rem;
+}
+.form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
 }
 .label {
   display: flex;
@@ -133,9 +135,6 @@ button:hover {
   gap: 0.5rem;
 }
 
-#saveButton {
-  margin-right: 2rem;
-}
 #exportButton,
 #importButton {
   background-color: gray;
