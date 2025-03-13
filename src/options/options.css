@@ -26,7 +26,7 @@ body {
 body .header {
   margin-top: 0.5rem;
 }
-body > :last-child {
+body > :is(#keywordList, #searchResultList) {
   margin-bottom: 0.5rem;
 }
 button {
@@ -149,7 +149,12 @@ button:hover {
   background-color: rgb(255, 66, 66);
 }
 
-#keywordList {
+.listHidden {
+  display: none;
+}
+
+#keywordList,
+#searchResultList {
   padding: 0;
   list-style: none;
   flex: 1;
@@ -157,10 +162,10 @@ button:hover {
   scrollbar-color: rgba(255, 255, 255, 0.3) var(--bgc);
   transition: scrollbar-color 0.2s ease;
 }
-#keywordList::-webkit-scrollbar {
+:is(#keywordList, #searchResultList)::-webkit-scrollbar {
   border-radius: 5px !important;
 }
-#keywordList:hover {
+:is(#keywordList, #searchResultList):hover {
   scrollbar-color: rgba(255, 255, 255, 0.6) var(--bgc);
 }
 #keywordList > .keywordItem:last-child {
@@ -234,16 +239,35 @@ button:hover {
 }
 .searchInput {
   max-width: 120px;
-  padding-right: 40px;
+  padding-right: 65px;
+}
+#searchClearButton {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  right: 40px;
+  top: 2px;
+  bottom: 2px;
+  padding: 0 2px;
+  background-color: transparent;
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+#search.changed ~ #searchClearButton {
+  opacity: 0.8;
+  pointer-events: all;
+}
+#searchClearButton > svg {
+  fill: rgb(236, 76, 71);
 }
 #searchButton {
   position: absolute;
   right: 2px;
   top: 2px;
   bottom: 2px;
-  padding: 10px;
   border-radius: 5px;
-  padding: 0 8px;
+  padding: 5px 8px;
   background-color: darkgray;
 }
 #searchButton:hover,

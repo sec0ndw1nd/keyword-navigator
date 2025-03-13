@@ -6,6 +6,20 @@ import {
   updateLocalKeywords,
 } from "../utils/storage.js";
 
+function switchListTo(listId) {
+  if (!["keywordList", "searchResultList"].includes(listId)) {
+    console.error("invalid element id", listId);
+    return;
+  }
+  let hiddenTarget = "keywordList";
+  if (listId === "keywordList") hiddenTarget = "searchResultList";
+
+  document.querySelectorAll(".listHidden").forEach(($) => {
+    $.classList.remove("listHidden");
+  });
+  document.getElementById(hiddenTarget).classList.add("listHidden");
+}
+
 async function updateKeywordListView(shouldScrollDown = false) {
   const keywords = await getLocalKeywordsAll();
   const $list = document.getElementById("keywordList");
@@ -22,6 +36,30 @@ async function updateKeywordListView(shouldScrollDown = false) {
       behavior: "smooth",
     });
   }
+}
+
+async function updateSearchResultListView() {
+  const $resultList = document.getElementById("searchResultList");
+  $resultList.innerHTML = "";
+
+  const $input = document.getElementById("search");
+  $input.focus();
+  const inputValue = $input.value.toLowerCase().trim();
+  if (!inputValue) {
+    switchListTo("keywordList");
+    return;
+  }
+
+  const keywords = await getLocalKeywordsAll();
+  const filtered = keywords.filter((d) =>
+    d.keyword.toLowerCase().includes(inputValue)
+  );
+
+  filtered.forEach((item) => {
+    const $li = createKeywordListItem(item);
+    $resultList.appendChild($li);
+  });
+  switchListTo("searchResultList");
 }
 
 function isValidURL(url) {
@@ -51,6 +89,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const prevLength = changes.keywords.oldValue.length;
       const currLength = changes.keywords.newValue.length;
       await updateKeywordListView(currLength > prevLength);
+
+      const $searchResultList = document.getElementById("searchResultList");
+      const hasSearchResult =
+        !$searchResultList.classList.contains("listHidden");
+      if (hasSearchResult) {
+        await updateSearchResultListView();
+      }
     }
   });
 
@@ -60,6 +105,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const $importFile = document.getElementById("importFile");
   const $importButton = document.getElementById("importButton");
   const $deleteAllButton = document.getElementById("deleteAllButton");
+  const $searchInput = document.getElementById("search");
+  const $searchButton = document.getElementById("searchButton");
+  const $clearInputButton = document.getElementById("searchClearButton");
 
   $form.addEventListener("submit", handleSubmitForm);
   $saveButton.addEventListener("click", handleClickSave);
@@ -72,7 +120,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("backdrop").addEventListener("click", toggleAskPopup);
 
   document.getElementById("yes").addEventListener("click", handleClickYes);
+
+  $searchInput.addEventListener("keypress", handleSearchEnter);
+  $searchInput.addEventListener("input", handleChangeInput);
+  $searchButton.addEventListener("click", handleClickSearch);
+  $clearInputButton.addEventListener("click", handleClickClearInput);
 });
+
+function handleChangeInput(event) {
+  event.target.value
+    ? event.target.classList.add("changed")
+    : event.target.classList.remove("changed");
+}
 
 async function handleClickSave() {
   const name = document.getElementById("name");
@@ -153,7 +212,6 @@ async function handleImportFile(event) {
     reader.readAsText(file);
   }
 }
-
 function handleClickImport() {
   this.click(); // this = getElementById("importFile")
 }
@@ -161,4 +219,20 @@ function handleClickImport() {
 async function handleClickYes() {
   await deleteLocalKeywordsAll();
   toggleAskPopup();
+}
+
+async function handleSearchEnter(event) {
+  if (event.key !== "Enter") return;
+  await handleClickSearch();
+}
+
+async function handleClickSearch() {
+  await updateSearchResultListView();
+}
+
+async function handleClickClearInput() {
+  const $input = document.getElementById("search");
+  $input.value = "";
+  $input.dispatchEvent(new Event("input", { bubbles: true }));
+  await updateSearchResultListView();
 }
