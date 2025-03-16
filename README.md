@@ -11,14 +11,14 @@ So, Feel free to use it!
 
 1.  [download](https://github.com/sec0ndw1nd/keyword-navigator/releases/latest) and unzip it
 
-2.  Go `Manage Extensions` page
-    ![](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install1.jpg)
+2.  Go `Manage Extensions` page<br/>
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install1.jpg)
 
-3.  Enable developer mode and Click "Load unpacked"
-    ![](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install2.jpg)
+3.  Enable developer mode and Click "Load unpacked"<br/>
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install2.jpg)
 
-4.  Select the unzippped folder
-    ![](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install3.jpg)
+4.  Select the unzippped folder<br/>
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/install3.jpg)
 
 ### How to Use
 
