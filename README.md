@@ -9,8 +9,6 @@ So, Feel free to use it!
 
 ## Installation
 
----
-
 1.  [download](https://github.com/sec0ndw1nd/keyword-navigator/releases/latest) and unzip it
 
 2.  Go `Manage Extensions` page<br/>
@@ -37,7 +35,7 @@ So, Feel free to use it!
 
 ## How to Change Shortcut
 
-Ctrl+Q is the default shortcut key.<br/>
+`Ctrl+Q` is the default shortcut key.<br/>
 You can edit it at `chrome://extensions/shortcuts`<br/>
 ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtochange.jpg)
 
