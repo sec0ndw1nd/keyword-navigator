@@ -28,7 +28,7 @@ So, Feel free to use it!
 2.  At options page, Add your desired site with a keyword.<br/>
     ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse2.jpg)
 
-3.  On browser, `Ctrl+Q to` activate the extension and type a keyword you added.<br/>
+3.  On browser, `Ctrl+Q` to activate the extension and type a keyword you added.<br/>
     `Enter` to open it in <ins>**the current tab**</ins><br/>
     `Shift+Enter` to open it in <ins>**a new tab**</ins>.<br/>
     ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse3.jpg)
