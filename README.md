@@ -24,8 +24,6 @@ So, Feel free to use it!
 
 ## How to Use
 
----
-
 1.  Go `Keyword Navigator`'s Options page<br/>
     ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse1.jpg)
 
@@ -39,14 +37,10 @@ So, Feel free to use it!
 
 ## How to Change Shortcut
 
----
-
 Ctrl+Q is the default shortcut key.<br/>
 You can edit it at `chrome://extensions/shortcuts`<br/>
 ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtochange.jpg)
 
 ## License
-
----
 
 MIT License
