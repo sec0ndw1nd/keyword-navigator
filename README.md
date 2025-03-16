@@ -22,11 +22,15 @@ So, Feel free to use it!
 
 ### How to Use
 
-1.  Install the Keyword Navigator extension
-2.  Right-click on the extension you just installed, then click "Options" in context menu.
-3.  At options page, Add your desired site with a keyword.
-4.  On browser, Ctrl+Q to activate the extension and type a keyword you added.
-5.  Enter to open it in current tab, Shift+Enter to open it in new tab.
+1.  Go `Keyword Navigator`'s Options page<br/>
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse1.jpg)
+
+2.  At options page, Add your desired site with a keyword.<br/>
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse2.jpg)
+
+3.  On browser, Ctrl+Q to activate the extension and type a keyword you added.
+    Enter to open it in current tab, Shift+Enter to open it in new tab.
+    ![screenshot](https://github.com/sec0ndw1nd/keyword-navigator/blob/main/screenshots/howtouse3.jpg)
 
 ### How to Change Shortcut
 
