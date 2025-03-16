@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Keyword Navigator",
-  "version": "1.0",
+  "version": "0.0.1",
   "permissions": ["storage", "tabs"],
   "options_page": "options/options.html",
   "action": {
