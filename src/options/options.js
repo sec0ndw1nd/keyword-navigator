@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   chrome.storage.onChanged.addListener(async (changes, areaName) => {
     if (areaName === "local" && changes.keywords) {
       const prevLength = changes.keywords.oldValue?.length || 0;
-      const currLength = changes.keywords.newValue.length;
+      const currLength = changes.keywords.newValue?.length || 0;
       await updateKeywordListView(currLength > prevLength);
 
       const $searchResultList = document.getElementById("searchResultList");
